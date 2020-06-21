@@ -21,7 +21,8 @@ namespace Kolokwium.Configurations
             builder.HasOne(p => p.MusicLabel)
                 .WithMany(l => l.Albums)
                 .HasForeignKey(a => a.IdMusicLabel)
-                .IsRequired();
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

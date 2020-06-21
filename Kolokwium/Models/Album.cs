@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace Kolokwium.Models
 {
@@ -10,5 +11,6 @@ namespace Kolokwium.Models
         public DateTime PublishDate { get; set; }
         public int IdMusicLabel { get; set; }
         public virtual MusicLabel MusicLabel { get; set; }
+        public ICollection<Track> Tracks { get; set; }
     }
 }
