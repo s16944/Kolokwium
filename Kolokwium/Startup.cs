@@ -2,7 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Kolokwium.DTO;
+using Kolokwium.Mappers;
 using Kolokwium.Models;
+using Kolokwium.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -27,6 +30,8 @@ namespace Kolokwium
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<IDbService, EfDbService>();
+            services.AddScoped<IMapper<Musician, MusicianResponse>, MusicianToMusicianResponseMapper>();
             services.AddDbContext<MusicDbContext>(options =>
             {
                 options.UseSqlServer("Data Source=db-mssql;Initial Catalog=s16944;Integrated Security=True");
