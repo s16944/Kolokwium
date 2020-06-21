@@ -6,6 +6,7 @@ namespace Kolokwium.Models
     public class MusicDbContext : DbContext
     {
         public DbSet<Musician> Musicians { get; set; }
+        public DbSet<MusicLabel> MusicLabels { get; set; }
         
         protected MusicDbContext()
         {
@@ -20,6 +21,7 @@ namespace Kolokwium.Models
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.ApplyConfiguration(new MusicianEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new MusicLabelEntityTypeConfiguration());
         }
     }
 }
