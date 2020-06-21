@@ -12,11 +12,14 @@ namespace Kolokwium.Controllers
     {
         private readonly IDbService _dbService;
         private readonly IMapper<Musician, MusicianResponse> _musicianToResponseMapper;
+        private readonly IMapper<MusicianRequest, Musician> _requestToMusicianMapper;
 
-        public MusicianController(IDbService dbService, IMapper<Musician, MusicianResponse> musicianToResponseMapper)
+        public MusicianController(IDbService dbService, IMapper<Musician, MusicianResponse> musicianToResponseMapper,
+            IMapper<MusicianRequest, Musician> requestToMusicianMapper)
         {
             _dbService = dbService;
             _musicianToResponseMapper = musicianToResponseMapper;
+            _requestToMusicianMapper = requestToMusicianMapper;
         }
 
         [HttpGet("{musicianId}")]
@@ -32,6 +35,15 @@ namespace Kolokwium.Controllers
             {
                 return NotFound();
             }
+        }
+
+        [HttpPost]
+        public IActionResult AddMusician(MusicianRequest request)
+        {
+            var musician = _requestToMusicianMapper.Map(request);
+            _dbService.AddMusicianWithTracks(musician);
+            var response = _musicianToResponseMapper.Map(musician);
+            return Created($"/api/musicians/{musician.IdMusician}", response);
         }
     }
 }

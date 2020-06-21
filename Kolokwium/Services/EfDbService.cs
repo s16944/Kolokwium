@@ -30,5 +30,10 @@ namespace Kolokwium.Services
                 throw new NotFoundException();
             }
         }
+
+        public void AddMusicianWithTracks(Musician musician)
+        {
+            
+        }
     }
 }
