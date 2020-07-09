@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using Kolokwium.DTO;
 using Kolokwium.Models;
 
@@ -16,21 +14,25 @@ namespace Kolokwium.Mappers
                 LastName = data.LastName,
                 Nickname = data.Nickname
             };
-            musician.MusicianTracks = createMusicianTracks(data, musician);
+            musician.MusicianTracks = CreateMusicianTracks(data, musician);
             return musician;
         }
 
-        private ICollection<MusicianTrack> createMusicianTracks(MusicianRequest data, Musician musician) =>
-            data.Tracks
-                .Select(t => new Track
-                {
-                    TrackName = t.Name,
-                    Duration = t.Duration
-                })
-                .Select(t => new MusicianTrack
+        private ICollection<MusicianTrack> CreateMusicianTracks(MusicianRequest data, Musician musician)
+        {
+            var track = new Track
+            {
+                TrackName = data.Track.Name,
+                Duration = data.Track.Duration
+            };
+            return new List<MusicianTrack>
+            {
+                new MusicianTrack
                 {
                     Musician = musician,
-                    Track = t
-                }).ToList();
+                    Track = track
+                }
+            };
+        }
     }
 }

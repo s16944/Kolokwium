@@ -10,7 +10,7 @@ namespace Kolokwium.DTO
         [Required]
         public string LastName { get; set; }
         public string Nickname { get; set; }
-        public IEnumerable<NewTrackItem> Tracks { get; set; }
+        public NewTrackItem Track { get; set; }
     }
 
     public class NewTrackItem

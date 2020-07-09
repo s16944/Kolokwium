@@ -31,9 +31,30 @@ namespace Kolokwium.Services
             }
         }
 
-        public void AddMusicianWithTracks(Musician musician)
+        public void AddMusicianWithTrack(Musician musician)
         {
-            
+            _dbContext.Database.BeginTransaction();
+
+            var dbMusician = _dbContext.Musicians.FirstOrDefault(m =>
+                m.FirstName == musician.FirstName &&
+                m.LastName == musician.LastName &&
+                m.Nickname == musician.Nickname
+            );
+
+            if (dbMusician != default) throw new ConflictException("Musician already exists");
+
+            foreach (var mt in musician.MusicianTracks)
+            {
+                var track = mt.Track;
+                mt.Track = _dbContext.Tracks.FirstOrDefault(t =>
+                    t.TrackName == track.TrackName && Math.Abs(t.Duration - track.Duration) < 0.01f
+                ) ?? track;
+            }
+
+            _dbContext.Musicians.Add(musician);
+            _dbContext.SaveChanges();
+
+            _dbContext.Database.CommitTransaction();
         }
     }
 }

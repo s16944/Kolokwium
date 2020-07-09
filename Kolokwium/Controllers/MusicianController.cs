@@ -1,3 +1,4 @@
+using System;
 using Kolokwium.DTO;
 using Kolokwium.Mappers;
 using Kolokwium.Models;
@@ -41,7 +42,17 @@ namespace Kolokwium.Controllers
         public IActionResult AddMusician(MusicianRequest request)
         {
             var musician = _requestToMusicianMapper.Map(request);
-            _dbService.AddMusicianWithTracks(musician);
+
+            try
+            {
+                _dbService.AddMusicianWithTrack(musician);
+            }
+            catch (ConflictException e)
+            {
+                return Conflict(e.Message);
+            }
+            
+            
             var response = _musicianToResponseMapper.Map(musician);
             return Created($"/api/musicians/{musician.IdMusician}", response);
         }
