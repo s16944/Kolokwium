@@ -16,19 +16,14 @@ namespace Kolokwium.Services
 
         public Musician GetMusicianWithTracksById(int musicianId)
         {
-            try
-            {
-                var musician = _dbContext.Musicians
-                    .Include(m => m.MusicianTracks)
-                    .ThenInclude(mt => mt.Track)
-                    .First(m => m.IdMusician == musicianId);
+            var musician = _dbContext.Musicians
+                .Include(m => m.MusicianTracks)
+                .ThenInclude(mt => mt.Track)
+                .FirstOrDefault(m => m.IdMusician == musicianId);
 
-                return musician;
-            }
-            catch (InvalidOperationException)
-            {
-                throw new NotFoundException();
-            }
+            if (musician == default) throw new NotFoundException();
+
+            return musician;
         }
 
         public void AddMusicianWithTrack(Musician musician)
