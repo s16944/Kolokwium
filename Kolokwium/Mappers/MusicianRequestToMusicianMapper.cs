@@ -20,6 +20,7 @@ namespace Kolokwium.Mappers
 
         private ICollection<MusicianTrack> CreateMusicianTracks(MusicianRequest data, Musician musician)
         {
+            if (data.Track == default) return new List<MusicianTrack>();
             var track = new Track
             {
                 TrackName = data.Track.Name,

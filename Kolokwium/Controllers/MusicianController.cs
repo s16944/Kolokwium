@@ -1,4 +1,3 @@
-using System;
 using Kolokwium.DTO;
 using Kolokwium.Mappers;
 using Kolokwium.Models;
